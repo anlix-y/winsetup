@@ -1,0 +1,41 @@
+# Проверка модуля реестра в ВМ. Пишет только в HKCU\Software\winsetup-test — безопасно.
+
+[general]
+on_error = "ask"
+
+[[registry]]
+path = 'HKCU\Software\winsetup-test'
+name = "Dword"
+type = "dword"
+value = 42
+
+[[registry]]
+path = 'HKCU\Software\winsetup-test'
+name = "Qword"
+type = "qword"
+value = 5000000000
+
+[[registry]]
+path = 'HKCU\Software\winsetup-test'
+name = "Text"
+type = "string"
+value = "Привет, мир"
+
+[[registry]]
+path = 'HKCU\Software\winsetup-test'
+name = "Expand"
+type = "expand_string"
+value = '%USERPROFILE%\Desktop'
+
+[[registry]]
+path = 'HKCU\Software\winsetup-test\Nested'
+name = "Multi"
+type = "multi_string"
+value = ["один", "два"]
+
+# Без прав администратора эта запись должна упасть → проверка вопроса «остановить/пропустить»
+[[registry]]
+path = 'HKLM\SOFTWARE\winsetup-test'
+name = "NeedsAdmin"
+type = "dword"
+value = 1

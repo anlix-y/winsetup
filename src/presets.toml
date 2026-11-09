@@ -1,0 +1,295 @@
+# Встроенные пресеты внутри разделов. Вшиваются в exe.
+# config — кусок обычного конфига; галочка в GUI добавляет его записи, снятая — убирает.
+# group — строка в GUI: пара с общим group показывается в одну строку.
+# Пресеты идут парами «включить / выключить»: выбор одного снимает другой (те же службы/значения/имя правила).
+# У правил брандмауэра в паре одинаковое имя — при применении старое правило заменяется, а не остаётся рядом.
+
+# ---------- Брандмауэр ----------
+[[preset]]
+section = "firewall"
+name = "Открыть RDP"
+group = "RDP"
+about = "Удалённый рабочий стол (TCP 3389). «Открыть» — разрешить входящие подключения к этому ПК, «Закрыть» — запретить."
+[[preset.config.firewall.rule]]
+name = "RDP (winsetup)"
+direction = "in"
+action = "allow"
+protocol = "tcp"
+port = 3389
+
+[[preset]]
+section = "firewall"
+name = "Закрыть RDP"
+group = "RDP"
+[[preset.config.firewall.rule]]
+name = "RDP (winsetup)"
+direction = "in"
+action = "block"
+protocol = "tcp"
+port = 3389
+
+[[preset]]
+section = "firewall"
+name = "Открыть SMB (порт 445)"
+group = "SMB (порт 445)"
+about = "Общие папки и принтеры Windows. Закрытие защищает от сетевых червей (WannaCry), но общие папки на этом ПК перестанут работать."
+[[preset.config.firewall.rule]]
+name = "SMB 445 (winsetup)"
+direction = "in"
+action = "allow"
+protocol = "tcp"
+port = 445
+
+[[preset]]
+section = "firewall"
+name = "Закрыть SMB (порт 445)"
+group = "SMB (порт 445)"
+[[preset.config.firewall.rule]]
+name = "SMB 445 (winsetup)"
+direction = "in"
+action = "block"
+protocol = "tcp"
+port = 445
+
+[[preset]]
+section = "firewall"
+name = "Разрешить ping"
+group = "Ping"
+about = "Ответ на ping (ICMP echo). Удобно для диагностики сети; запрет скрывает ПК от простого сканирования."
+[[preset.config.firewall.rule]]
+name = "Ping (winsetup)"
+direction = "in"
+action = "allow"
+protocol = "icmp"
+
+[[preset]]
+section = "firewall"
+name = "Запретить ping"
+group = "Ping"
+[[preset.config.firewall.rule]]
+name = "Ping (winsetup)"
+direction = "in"
+action = "block"
+protocol = "icmp"
+
+[[preset]]
+section = "firewall"
+name = "Включить все профили"
+group = "Все профили"
+about = "Брандмауэр в доменной, частной и общей сети. Выключать не рекомендуется."
+[preset.config.firewall]
+domain = true
+private = true
+public = true
+
+[[preset]]
+section = "firewall"
+name = "Выключить все профили"
+group = "Все профили"
+[preset.config.firewall]
+domain = false
+private = false
+public = false
+
+# ---------- Службы ----------
+[[preset]]
+section = "service"
+name = "Включить печать"
+group = "Печать"
+about = "Служба «Диспетчер печати» (Spooler). Если принтеров нет — лучше отключить: в ней бывали уязвимости (PrintNightmare)."
+[[preset.config.service]]
+name = "Spooler"
+startup = "auto"
+state = "running"
+
+[[preset]]
+section = "service"
+name = "Отключить печать"
+group = "Печать"
+[[preset.config.service]]
+name = "Spooler"
+startup = "disabled"
+state = "stopped"
+
+[[preset]]
+section = "service"
+name = "Включить удалённый реестр"
+group = "Удалённый реестр"
+about = "Служба RemoteRegistry: доступ к реестру этого ПК по сети. Обычно не нужна."
+[[preset.config.service]]
+name = "RemoteRegistry"
+startup = "auto"
+state = "running"
+
+[[preset]]
+section = "service"
+name = "Отключить удалённый реестр"
+group = "Удалённый реестр"
+[[preset.config.service]]
+name = "RemoteRegistry"
+startup = "disabled"
+state = "stopped"
+
+[[preset]]
+section = "service"
+name = "Включить Xbox-службы"
+group = "Xbox-службы"
+about = "Службы Xbox Live и игровых контроллеров. На рабочих ПК не нужны."
+[[preset.config.service]]
+name = "XblAuthManager"
+startup = "manual"
+[[preset.config.service]]
+name = "XblGameSave"
+startup = "manual"
+[[preset.config.service]]
+name = "XboxNetApiSvc"
+startup = "manual"
+[[preset.config.service]]
+name = "XboxGipSvc"
+startup = "manual"
+
+[[preset]]
+section = "service"
+name = "Отключить Xbox-службы"
+group = "Xbox-службы"
+[[preset.config.service]]
+name = "XblAuthManager"
+startup = "disabled"
+state = "stopped"
+[[preset.config.service]]
+name = "XblGameSave"
+startup = "disabled"
+state = "stopped"
+[[preset.config.service]]
+name = "XboxNetApiSvc"
+startup = "disabled"
+state = "stopped"
+[[preset.config.service]]
+name = "XboxGipSvc"
+startup = "disabled"
+state = "stopped"
+
+# ---------- Компоненты Windows ----------
+[[preset]]
+section = "features"
+name = "Включить SMB1"
+group = "SMB1"
+about = "Устаревший протокол общих папок, небезопасен. Нужен только очень старым устройствам (старые МФУ, NAS)."
+[preset.config.features]
+enable = ["SMB1Protocol"]
+
+[[preset]]
+section = "features"
+name = "Отключить SMB1"
+group = "SMB1"
+[preset.config.features]
+disable = ["SMB1Protocol"]
+
+[[preset]]
+section = "features"
+name = "Включить .NET 3.5"
+group = ".NET 3.5"
+about = "Нужен старым программам. При включении скачивается из Интернета."
+[preset.config.features]
+enable = ["NetFx3"]
+
+[[preset]]
+section = "features"
+name = "Отключить .NET 3.5"
+group = ".NET 3.5"
+[preset.config.features]
+disable = ["NetFx3"]
+
+[[preset]]
+section = "features"
+name = "Включить Hyper-V"
+group = "Hyper-V"
+about = "Встроенная виртуализация Windows (Pro/Enterprise). Нужна перезагрузка."
+[preset.config.features]
+enable = ["Microsoft-Hyper-V-All"]
+
+[[preset]]
+section = "features"
+name = "Отключить Hyper-V"
+group = "Hyper-V"
+[preset.config.features]
+disable = ["Microsoft-Hyper-V-All"]
+
+[[preset]]
+section = "features"
+name = "Включить WSL"
+group = "WSL"
+about = "Подсистема Linux для Windows. Нужна перезагрузка."
+[preset.config.features]
+enable = ["Microsoft-Windows-Subsystem-Linux", "VirtualMachinePlatform"]
+
+[[preset]]
+section = "features"
+name = "Отключить WSL"
+group = "WSL"
+[preset.config.features]
+disable = ["Microsoft-Windows-Subsystem-Linux", "VirtualMachinePlatform"]
+
+# ---------- Реестр ----------
+[[preset]]
+section = "registry"
+name = "Включить автозапуск с флешек"
+group = "Автозапуск с флешек"
+about = "Автоматический запуск программ с подключённых дисков. Отключение защищает от вирусов на флешках."
+[[preset.config.registry]]
+path = 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
+name = "NoDriveTypeAutoRun"
+type = "dword"
+value = 145  # 0x91 — значение Windows по умолчанию
+
+[[preset]]
+section = "registry"
+name = "Отключить автозапуск с флешек"
+group = "Автозапуск с флешек"
+[[preset.config.registry]]
+path = 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
+name = "NoDriveTypeAutoRun"
+type = "dword"
+value = 255
+
+[[preset]]
+section = "registry"
+name = "Включить Cortana"
+group = "Cortana"
+about = "Голосовой помощник Microsoft."
+[[preset.config.registry]]
+path = 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search'
+name = "AllowCortana"
+type = "dword"
+value = 1
+
+[[preset]]
+section = "registry"
+name = "Отключить Cortana"
+group = "Cortana"
+[[preset.config.registry]]
+path = 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search'
+name = "AllowCortana"
+type = "dword"
+value = 0
+
+[[preset]]
+section = "registry"
+name = "Включить NumLock при входе"
+group = "NumLock при входе"
+about = "Включён ли NumLock на экране входа в Windows."
+[[preset.config.registry]]
+path = 'HKU\.DEFAULT\Control Panel\Keyboard'
+name = "InitialKeyboardIndicators"
+type = "string"
+value = "2"
+
+[[preset]]
+section = "registry"
+name = "Выключить NumLock при входе"
+group = "NumLock при входе"
+[[preset.config.registry]]
+path = 'HKU\.DEFAULT\Control Panel\Keyboard'
+name = "InitialKeyboardIndicators"
+type = "string"
+value = "0"

@@ -1,0 +1,22 @@
+# Проверка модулей: имя ПК, компоненты Windows, службы.
+
+[general]
+on_error = "ask"
+reboot = "ask"
+
+[computer]
+name = "WINSETUP-TEST"
+
+[features]
+enable = ["TelnetClient"]   # маленький компонент, ставится без интернета
+disable = ["SMB1Protocol"]
+
+[[service]]
+name = "Spooler"            # диспетчер печати
+startup = "disabled"
+state = "stopped"
+
+# Несуществующая служба → ошибка, проверка вопроса
+[[service]]
+name = "NoSuchService123"
+state = "running"

@@ -1,0 +1,19 @@
+# Проверка модуля пользователей.
+
+[general]
+on_error = "ask"
+
+[[user]]
+name = "operator"
+password = "Test-Pass123!"
+groups = ["Remote Desktop Users", "Users"]
+
+[[user]]
+name = "kiosk"               # без пароля
+groups = ["Users"]
+
+# Несуществующая группа → ошибка
+[[user]]
+name = "tester"
+password = "Test-Pass123!"
+groups = ["NoSuchGroup"]

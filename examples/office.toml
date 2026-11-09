@@ -1,0 +1,88 @@
+# Пример: офисный ПК. Любой раздел можно не указывать — он просто пропускается.
+
+[general]
+name = "Офисный ПК"
+on_error = "ask"          # ask | continue | stop
+reboot = "ask"            # ask | never | always (если перезагрузка нужна)
+
+[computer]
+name = "OFFICE-PC-01"
+
+# ---------- Софт ----------
+[[software]]
+winget = "Google.Chrome"
+
+[[software]]
+winget = "7zip.7zip"
+version = "24.08"         # необязательно; без версии — последняя
+
+[[software]]
+name = "Корпоративный клиент"
+url = "https://example.com/client-setup.exe"
+args = "/S"               # ключи тихой установки
+# SHA256 отключён: sha256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"  # без него — предупреждение
+check_path = 'C:\Program Files\Client\client.exe'  # файл есть → уже установлено, пропуск; без поля — предупреждение
+
+# ---------- Сеть ----------
+[[network]]
+adapter = "Ethernet"
+dhcp = false
+ip = "192.168.1.50"
+prefix = 24
+gateway = "192.168.1.1"
+dns = ["192.168.1.1", "8.8.8.8"]
+
+# ---------- Брандмауэр ----------
+[firewall]
+domain = true             # профили вкл/выкл
+private = true
+public = true
+
+[[firewall.rule]]
+name = "RDP"
+direction = "in"          # in | out
+action = "allow"          # allow | block
+protocol = "tcp"
+port = 3389
+
+# ---------- Реестр ----------
+[[registry]]
+path = 'HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection'
+name = "AllowTelemetry"
+type = "dword"            # dword | qword | string | expand_string | multi_string
+value = 0
+
+# ---------- Службы ----------
+[[service]]
+name = "Spooler"
+startup = "disabled"      # auto | manual | disabled
+state = "stopped"         # running | stopped
+
+# ---------- Пользователи ----------
+[[user]]
+name = "operator"
+password = "ChangeMe123!"  # открытым текстом
+groups = ["Remote Desktop Users"]  # английские имена, программа переводит через SID
+
+# ---------- Компоненты Windows ----------
+[features]
+enable = ["NetFx3"]
+disable = ["SMB1Protocol"]
+
+# ---------- Электропитание ----------
+[power]
+plan = "high_performance" # balanced | high_performance | power_saver
+sleep_ac_minutes = 0      # 0 = никогда
+monitor_off_ac_minutes = 15
+
+# ---------- Windows Update ----------
+[windows_update]
+mode = "notify"           # auto | notify | disabled
+defer_feature_days = 180
+
+# ---------- Твики ----------
+[tweaks]
+telemetry = false
+ads = false
+show_file_extensions = true
+show_hidden_files = false

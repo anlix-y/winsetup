@@ -1,0 +1,203 @@
+# Встроенный каталог программ (winget). Вшивается в exe.
+# Свои программы пользователя хранятся в %AppData%\winsetup\catalog.toml в том же формате.
+
+[[software]]
+category = "Браузеры"
+name = "Google Chrome"
+winget = "Google.Chrome"
+
+[[software]]
+category = "Браузеры"
+name = "Mozilla Firefox"
+winget = "Mozilla.Firefox"
+
+[[software]]
+category = "Браузеры"
+name = "Brave"
+winget = "Brave.Brave"
+
+[[software]]
+category = "Документы"
+name = "LibreOffice"
+winget = "TheDocumentFoundation.LibreOffice"
+
+[[software]]
+category = "Документы"
+name = "Adobe Acrobat Reader"
+winget = "Adobe.Acrobat.Reader.64-bit"
+
+[[software]]
+category = "Документы"
+name = "SumatraPDF"
+winget = "SumatraPDF.SumatraPDF"
+
+[[software]]
+category = "Архиваторы"
+name = "7-Zip"
+winget = "7zip.7zip"
+
+[[software]]
+category = "Архиваторы"
+name = "WinRAR"
+winget = "RARLab.WinRAR"
+
+[[software]]
+category = "Связь"
+name = "Telegram"
+winget = "Telegram.TelegramDesktop"
+
+[[software]]
+category = "Связь"
+name = "Zoom"
+winget = "Zoom.Zoom"
+
+[[software]]
+category = "Медиа"
+name = "VLC"
+winget = "VideoLAN.VLC"
+
+[[software]]
+category = "Администрирование"
+name = "PowerToys"
+winget = "Microsoft.PowerToys"
+
+[[software]]
+category = "Администрирование"
+name = "RustDesk"
+winget = "RustDesk.RustDesk"
+
+[[software]]
+category = "Администрирование"
+name = "WinSCP"
+winget = "WinSCP.WinSCP"
+
+[[software]]
+category = "Администрирование"
+name = "PuTTY"
+winget = "PuTTY.PuTTY"
+
+[[software]]
+category = "Администрирование"
+name = "Wireshark"
+winget = "WiresharkFoundation.Wireshark"
+
+[[software]]
+category = "Администрирование"
+name = "Notepad++"
+winget = "Notepad++.Notepad++"
+
+[[software]]
+category = "Разработка"
+name = "Git"
+winget = "Git.Git"
+
+[[software]]
+category = "Разработка"
+name = "Visual Studio Code"
+winget = "Microsoft.VisualStudioCode"
+
+[[software]]
+category = "Разработка"
+name = "Python 3.12"
+winget = "Python.Python.3.12"
+
+[[software]]
+category = "Сеть и VPN"
+name = "Cloudflare WARP (1.1.1.1)"
+winget = "Cloudflare.Warp"
+
+[[software]]
+category = "Сеть и VPN"
+name = "Happ (прокси-клиент)"
+winget = "Happ.Happ"
+
+# zapret (bol-van) нет в winget и нет установщика — распаковываем архив сборки для Windows.
+# Стратегию обхода под своего провайдера пользователь выбирает сам (blockcheck в архиве).
+[[software]]
+category = "Сеть и VPN"
+name = "zapret (bol-van), архив в C:\\zapret"
+url = "https://github.com/bol-van/zapret-win-bundle/archive/refs/heads/master.zip"
+extract_to = 'C:\zapret'
+check_path = 'C:\zapret\zapret-win-bundle-master'
+
+# ---------- Встроенные приложения Windows, которые можно удалить ----------
+
+[[remove]]
+name = "Новости"
+package = "Microsoft.BingNews"
+
+[[remove]]
+name = "Погода"
+package = "Microsoft.BingWeather"
+
+[[remove]]
+name = "Техподдержка"
+package = "Microsoft.GetHelp"
+
+[[remove]]
+name = "Советы"
+package = "Microsoft.Getstarted"
+
+[[remove]]
+name = "Solitaire"
+package = "Microsoft.MicrosoftSolitaireCollection"
+
+[[remove]]
+name = "Люди"
+package = "Microsoft.People"
+
+[[remove]]
+name = "Центр отзывов"
+package = "Microsoft.WindowsFeedbackHub"
+
+[[remove]]
+name = "Карты"
+package = "Microsoft.WindowsMaps"
+
+[[remove]]
+name = "Музыка Groove / Медиаплеер"
+package = "Microsoft.ZuneMusic"
+
+[[remove]]
+name = "Кино и ТВ"
+package = "Microsoft.ZuneVideo"
+
+[[remove]]
+name = "Xbox"
+package = "Microsoft.GamingApp"
+
+[[remove]]
+name = "Связь с телефоном"
+package = "Microsoft.YourPhone"
+
+[[remove]]
+name = "Microsoft 365 (Office)"
+package = "Microsoft.MicrosoftOfficeHub"
+
+[[remove]]
+name = "Skype"
+package = "Microsoft.SkypeApp"
+
+[[remove]]
+name = "Clipchamp"
+package = "Clipchamp.Clipchamp"
+
+[[remove]]
+name = "To Do"
+package = "Microsoft.Todos"
+
+[[remove]]
+name = "Cortana"
+package = "Microsoft.549981C3F5F10"
+
+[[remove]]
+name = "Будильники и часы"
+package = "Microsoft.WindowsAlarms"
+
+[[remove]]
+name = "Записки"
+package = "Microsoft.MicrosoftStickyNotes"
+
+[[remove]]
+name = "Teams (личный)"
+package = "MicrosoftTeams"

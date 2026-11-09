@@ -1,0 +1,28 @@
+# Проверка: сеть (только DNS — IP не трогаем, связь с хостом сохранится) и брандмауэр.
+# Имя адаптера посмотрите командой Get-NetAdapter и поправьте при необходимости.
+
+[general]
+on_error = "ask"
+
+[[network]]
+adapter = "Ethernet"
+dhcp = true
+dns = ["1.1.1.1", "8.8.8.8"]
+
+[firewall]
+private = true
+public = true
+
+[[firewall.rule]]
+name = "winsetup RDP"
+direction = "in"
+action = "allow"
+protocol = "tcp"
+port = 3389
+
+[[firewall.rule]]
+name = "winsetup block telnet out"
+direction = "out"
+action = "block"
+protocol = "tcp"
+port = 23

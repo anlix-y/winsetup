@@ -1,0 +1,16 @@
+# Проверка: твики, электропитание, Windows Update.
+
+[tweaks]
+telemetry = false
+ads = false
+show_file_extensions = true
+show_hidden_files = true
+
+[power]
+plan = "balanced"
+sleep_ac_minutes = 0
+monitor_off_ac_minutes = 20
+
+[windows_update]
+mode = "notify"
+defer_feature_days = 90
